@@ -7,7 +7,7 @@
 //headtitle.style.borderBottom = "solid 10px #f00";
 
 
-let items = document.getElementsByClassName("list-group-item");
+/*let items = document.getElementsByClassName("list-group-item");
 
 
 
@@ -22,6 +22,18 @@ for(let i = 0;i<items.length;i++){
 
     items[i].style.backgroundColor = "yellow";
 }
+*/
+let clasedit = document.getElementsByClassName("list-group");
+clasedit.textContent="user unknown";
 
+let li = document.getElementsByTagName("li");
+
+for(let i=0;i<li.length;i++){
+    li[i].textContent = `user ${i}`;
+};
+
+for(let i=0;i<li.length;i++){
+    li[i].style.backgroundColor="red";
+};
 
 
