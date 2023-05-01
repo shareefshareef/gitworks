@@ -37,6 +37,8 @@ for(let i=0;i<li.length;i++){
     li[i].style.backgroundColor="red";
 };
 */
+
+/*
 let changeitem = document.querySelector(".list-group-item:nth-child(2)")
 changeitem.style.backgroundColor="green"
 
@@ -56,5 +58,77 @@ for(let i = 0;i<odd.length;i++){
 odd[i].style.backgroundColor="green"
 }
 //second element is green because i changed the element to be green and the third element has no value because it set the value to be invinsible
+
+*/
+
+
+
+//parentnode || parent element
+let items = document.querySelector("#items")
+items.parentNode.style.backgroundColor = "#f4f4f4"
+items.parentElement.style.backgroundColor = "#fff4f4"
+
+//childNode
+//console.log(items.childNodes)
+
+
+//children
+items.children[0].style.backgroundColor="yellow"
+items.children[1].style.backgroundColor="coral"
+items.children[2].style.backgroundColor="purple"
+items.children[3].style.backgroundColor="skyblue"
+
+//firstchild
+//console.log(items.FirstChild);
+//lastchild
+//console.log(items.LastChild);
+
+//firstelementchild //last element child
+items.firstElementChild.textContent="selmon bhai"
+items.lastElementChild.textContent="savlon bhai"
+
+//nextsibling
+//console.log(items.nextSibling);
+
+//nextelementsibling
+//console.log(items.nextElementSibling);
+//previoussibling
+//console.log(items.previousSibling)
+//previouselement sibling
+//console.log(items.previousElementSibling)
+
+//creating a element
+
+let celement = document.createElement("div");
+celement.className="nope";
+celement.id="nope1";
+
+
+celement.setAttribute('title','hellonope');
+
+
+let matter = document.createTextNode("hello world");
+
+celement.appendChild(matter);
+let container = document.querySelector('header .container')
+let h =  document.querySelector("header h1")
+
+container.insertBefore(celement,h)
+//===========================================
+let e1 = document.createElement("li");
+let content = document.createTextNode("hello")
+
+e1.appendChild(content);
+
+let hi = document.querySelector("ul")
+
+let h2 = document.querySelector("li")
+
+hi.insertBefore(e1,h2)
+
+
+
+
+
 
 
