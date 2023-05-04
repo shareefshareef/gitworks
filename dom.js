@@ -73,20 +73,22 @@ items.parentElement.style.backgroundColor = "#fff4f4"
 
 
 //children
+/*
 items.children[0].style.backgroundColor="yellow"
 items.children[1].style.backgroundColor="coral"
 items.children[2].style.backgroundColor="purple"
 items.children[3].style.backgroundColor="skyblue"
-
+*/
 //firstchild
 //console.log(items.FirstChild);
 //lastchild
 //console.log(items.LastChild);
 
 //firstelementchild //last element child
+/*
 items.firstElementChild.textContent="selmon bhai"
 items.lastElementChild.textContent="savlon bhai"
-
+*/
 //nextsibling
 //console.log(items.nextSibling);
 
@@ -98,7 +100,7 @@ items.lastElementChild.textContent="savlon bhai"
 //console.log(items.previousElementSibling)
 
 //creating a element
-
+/* element creating
 let celement = document.createElement("div");
 celement.className="nope";
 celement.id="nope1";
@@ -125,6 +127,57 @@ let hi = document.querySelector("ul")
 let h2 = document.querySelector("li")
 
 hi.insertBefore(e1,h2)
+*/
+
+let form = document.getElementById("add-form");
+let ull = document.getElementById("items")
+
+form.addEventListener('submit',addItem);
+ull.addEventListener('click',removeitem);
+
+
+function addItem(e){
+    e.preventDefault();
+    //getting input value
+
+    let get_input = document.getElementById("inputitem").value;
+
+    //create a element
+    let new_element = document.createElement("li");
+    //naming the class
+    new_element.className='list-group-item'
+    //inserting the value of submitted input to the li tag
+    new_element.appendChild(document.createTextNode(get_input));
+
+    
+
+    let deletebtn = document.createElement("button");
+    deletebtn.className = "btn btn-danger btn-sm float-right delete";
+
+    deletebtn.appendChild(document.createTextNode('X'));
+    new_element.appendChild(deletebtn);
+
+    let editbtn = document.createElement("button");
+    editbtn.className = "btn btn-danger btn-sm float-right edit"
+
+    editbtn.appendChild(document.createTextNode("E"));
+    new_element.appendChild(editbtn);
+    //inserting the li tag in the unorderelist tag
+
+    ull.appendChild(new_element);
+
+}
+
+function removeitem(e){
+    if(e.target.classList.contains("delete")){
+        if(confirm("are you sure")){
+            let li = e.target.parentElement;
+            ull.removeChild(li);
+        }
+    }
+}
+
+
 
 
 
