@@ -130,14 +130,26 @@ hi.insertBefore(e1,h2)
 */
 
 let form = document.getElementById("add-form");
-let ull = document.getElementById("items")
+let ull = document.getElementById("items");
+
+//filter
+let filter = document.getElementById("filter");
 
 form.addEventListener('submit',addItem);
 ull.addEventListener('click',removeitem);
+filter.addEventListener("keyup",filterItems);
+
+
+
+
+
 
 
 function addItem(e){
     e.preventDefault();
+
+    //get describe input value
+    let get_description = document.getElementById("describe").value;
     //getting input value
 
     let get_input = document.getElementById("inputitem").value;
@@ -149,6 +161,9 @@ function addItem(e){
     //inserting the value of submitted input to the li tag
     new_element.appendChild(document.createTextNode(get_input));
 
+    //changes
+    new_element.appendChild(document.createTextNode(" " + get_description));
+
     
 
     let deletebtn = document.createElement("button");
@@ -158,9 +173,9 @@ function addItem(e){
     new_element.appendChild(deletebtn);
 
     let editbtn = document.createElement("button");
-    editbtn.className = "btn btn-danger btn-sm float-right edit"
+    editbtn.className = "float-right edit"
 
-    editbtn.appendChild(document.createTextNode("E"));
+    editbtn.appendChild(document.createTextNode("edit"));
     new_element.appendChild(editbtn);
     //inserting the li tag in the unorderelist tag
 
@@ -176,6 +191,35 @@ function removeitem(e){
         }
     }
 }
+
+function filterItems(e){
+    let text = e.target.value.toLowerCase();
+    let items = document.getElementsByTagName("li");
+
+    //convert the html collection to array
+    
+    Array.from(items).forEach(function(item){
+        let itemname = item.firstChild.textContent;
+        let itemDescription = item.childNodes[1].textContent.toLowerCase();
+        if(itemname.toLocaleLowerCase().indexOf(text) != -1 || itemDescription.toLocaleLowerCase().indexOf(text) != -1){
+            item.style.display = "block";
+        }
+        else{
+            item.style.display = "none"
+        }
+
+    }
+    )
+    
+
+
+}
+
+
+
+
+
+
 
 
 
