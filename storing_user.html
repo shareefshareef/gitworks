@@ -31,8 +31,24 @@
 
             let ull = document.getElementById("items");
             let list = document.createElement("li");
+            
+
+
             list.appendChild(document.createTextNode(all));
+            
             ull.appendChild(list);
+
+            let delbtn = document.createElement("button");
+            delbtn.setAttribute("id","act2");
+            delbtn.appendChild(document.createTextNode("delete"));
+            list.appendChild(delbtn);
+
+            delbtn.addEventListener('click',perform);
+            function perform(){
+                list.parentNode.removeChild(list);
+                localStorage.removeItem(email);
+                
+            }
 
             user = {
                 "name":name,
@@ -41,7 +57,7 @@
             }
 
             localStorage.setItem(email,JSON.stringify(user));
-            
+
 
 
 
