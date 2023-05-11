@@ -15,9 +15,9 @@
 
         <label for="l1" style="font-size: 30px;">ADD USER</label>
         <label for="name">Name:</label>
-        <input type = "text" id = "#name"value = "kevinlevin">
+        <input type = "text" id = "#name" required>
         <label for="email">Email:</label>
-        <input type = "text" id = "#email"value="kevinlevin123@gmail.com">
+        <input type = "text" id = "#email"required>
         <button id = "submit">submit</button>
         <br>
 
@@ -34,9 +34,15 @@
             let user_name = document.getElementById("#name").value;
             let email_name = document.getElementById("#email").value;
 
-            //localStorage.setItem(user_name,email_name);
-            localStorage.setItem("email_id",email_name);
-            localStorage.setItem("user_name",user_name);
+            user = {
+                name : user_name,
+                email : email_name
+            }
+            let keyid = "user_" + new Date().getTime();
+
+            localStorage.setItem(keyid,JSON.stringify(user));
+            
+            
             
             console.log("done...")
 
