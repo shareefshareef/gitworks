@@ -40,13 +40,37 @@
 
             let delbtn = document.createElement("button");
             delbtn.setAttribute("id","act2");
-            delbtn.appendChild(document.createTextNode("delete"));
+            delbtn.appendChild(document.createTextNode("Delete"));
             list.appendChild(delbtn);
+
+            let edbtn = document.createElement("button");
+            edbtn.appendChild(document.createTextNode("Edit"));
+            list.appendChild(edbtn);
 
             delbtn.addEventListener('click',perform);
             function perform(){
                 list.parentNode.removeChild(list);
                 localStorage.removeItem(email);
+                
+            }
+
+            edbtn.addEventListener('click',perform2)
+            function perform2(){
+            
+
+            let name = list.childNodes[0].nodeValue.split(' - ')[0];
+            let email = list.childNodes[0].nodeValue.split(' - ')[1];
+            let mobile = list.childNodes[0].nodeValue.split(' - ')[2];
+
+            list.parentNode.removeChild(list);
+            localStorage.removeItem(email);
+
+            document.getElementById("user_name").value = name;
+            document.getElementById("email").value = email;
+            document.getElementById("mobile").value = mobile;
+
+
+
                 
             }
 
