@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</head>
+<body class="text-bg-light">
+
+    <label>choose ExpenseAmount</label>
+    <input type="number" id="ExpenseAmount"class="form-control"value="1000" >
+
+    <label>choose Description</label>
+    <input type="text" id="Description"class="form-control" value="whatever">
+
+    <label>choose Category</label>
+    <select id="category" class="form-select">
+        <option value="fuel"> fuel</option>
+        <option value="movie"> movie</option>
+        <option value="food"> food</option>
+        <option value="electricity"> electricity</option>
+
+    </select>
+
+    <button  id="add_expenses" class="btn btn-outline-primary btn-sm">Add Expenses</button>
+
+    <br>
+    <ul id = "items"></ul>
+    <script>
+        let btn_add_expenses = document.getElementById("add_expenses");
+
+        
+
+        
+
+        //adding event listener the addexpense button
+        btn_add_expenses.addEventListener('click',act1);
+
+        function act1(){
+            let amount = document.getElementById("ExpenseAmount").value;
+            let description = document.getElementById("Description").value;
+            let category = document.getElementById("category").value;
+
+            expenses =  {
+                "expenses":amount,
+                "description":description,
+                "category":category
+            }
+            localStorage.setItem(description,JSON.stringify(expenses))
+            
+            let ull = document.getElementById("items");
+            //creating li element and adding it to the ul elemnt
+            let new_element = document.createElement("li");
+            //classname of the li element
+            
+            let comb = amount + "-" + description+ "-" + category;
+            new_element.appendChild(document.createTextNode(comb));
+            ull.appendChild(new_element)
+            //creating delete button and adding it into the li element
+            let delbtn = document.createElement("button");
+            delbtn.setAttribute("id","delact")
+            //className of delete button
+            delbtn.className = "btn btn-outline-danger btn-sm";
+            delbtn.appendChild(document.createTextNode("delete"));
+            new_element.appendChild(delbtn)
+            // creating edit button and adding it inot the li element
+            let editexpense = document.createElement("button");
+            editexpense.setAttribute("id","editact")
+            //className of edit button
+            editexpense.className = "btn btn-outline-warning btn-sm";
+            editexpense.appendChild(document.createTextNode("EditExpenses"));
+            new_element.appendChild(editexpense)
+            //event listener of delete and edit buttons
+            delbtn.addEventListener("click",act2);
+            editexpense.addEventListener("click",act3);
+            //function of delete button
+            function act2(){
+                //removeing the element from both list and localstorage
+                new_element.parentNode.removeChild(new_element)
+                localStorage.removeItem(description)
+            }//end of delete function
+            //function of edit button
+            function act3(){
+                let num = new_element.childNodes[0].nodeValue.split('-')[0]
+                let des = new_element.childNodes[0].nodeValue.split('-')[1]
+                let cat = new_element.childNodes[0].nodeValue.split('-')[2]
+
+                new_element.parentNode.removeChild(new_element)
+                localStorage.removeItem(description)
+                //setting the value to the input boxes
+                document.getElementById("ExpenseAmount").value = num;
+                document.getElementById("Description").value = des;
+                document.getElementById("category").value = cat;
+
+            }//end of edit function
+
+            
+
+
+        }//end of add expense function
+        
+       
+
+    </script>
+    
+</body>
+</html>
