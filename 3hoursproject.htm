@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label>SellingPrice</label>
+    <input type="number" id="selling_price" placeholder="10000" value="25000">
+    <label>Product</label>
+    <input type="text" id="buying_product" placeholder="rtx3050ti" value="rtx3050ti">
+    <button id="getSubmit">AddProduct</button>
+    <br>
+    <h1>Products</h1>
+    <ul id="items">
+    </ul>
+    
+    <label style="font-size: 25px;font-weight: bold;">total worth of products:</label><label style="font-weight:bold">Rs </label><label id="alter_amount"></label>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        window.addEventListener("DOMContentLoaded",()=>{
+            axios.get("https://crudcrud.com/api/576f7e37c62d41b299588258750a04f5/products")
+            .then((res)=>{
+                
+                let Alabel = document.getElementById("alter_amount");
+                
+                for(let i = 0;i<res.data.length;i++){
+                    
+                    
+                    showOnScreen(res.data[i])
+                    let pPrices= Number(res.data[i].price)
+                    totalsum+=pPrices
+                    
+                    
+                }
+                Alabel.innerText = totalsum
+
+                
+
+
+            })
+            .catch((err)=>{
+                console.log("something went wrong at DomContentLoading.")
+            })
+        })
+
+        let addProduct = document.getElementById("getSubmit")
+        addProduct.addEventListener("click",addItems)
+
+        function showOnScreen(data){
+            console.log(data)
+            let ulist = document.getElementById("items")
+
+            let listItem = document.createElement("li")
+            let delProduct = document.createElement("button")
+
+            let datavalue = data.price + ' ' + data.product
+            listItem.appendChild(document.createTextNode(datavalue))
+            delProduct.appendChild(document.createTextNode("DeleteProduct"))
+            listItem.appendChild(delProduct)
+            ulist.appendChild(listItem)
+
+
+            delProduct.addEventListener("click",()=>removeProduct(data._id))
+            
+            function removeProduct(dataId){
+                let postedId = data._id
+                let dPrice = Number(data.price)
+                
+                
+                 axios.delete(`https://crudcrud.com/api/576f7e37c62d41b299588258750a04f5/products/${postedId}`)
+                 .then((res)=>{
+                    
+                    document.getElementById("alter_amount").innerText = totalsum-dPrice
+                     ulist.removeChild(listItem)
+                     console.log("successfully delted the product...")
+                 })
+                 .catch((err)=>{
+                     console.log("something went wrong at delete event")
+                 })
+            }
+            
+
+            
+            
+            
+        }
+        
+        var totalsum = 0
+        function addItems(){
+            //axios
+
+            let price = document.getElementById("selling_price").value
+            let item = document.getElementById("buying_product").value
+            let label = document.getElementById("alter_amount")
+
+            let userProducts = {
+                "price":price,
+                "product":item
+            }
+            axios.post("https://crudcrud.com/api/576f7e37c62d41b299588258750a04f5/products",userProducts)
+             .then((response)=>{
+                console.log("successfully posted...")
+                showOnScreen(response.data)
+                totalsum += Number(price)
+                label.innerText=totalsum
+             })
+             .then((err)=>{
+                console.log("something went wrong at posting...")
+             })
+
+             
+            
+        }
+
+    </script>
+    
+</body>
+</html>
