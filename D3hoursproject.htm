@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <label>ItemName</label><input type="text" id="itemname" placeholder="snickers"value="snickers">
+    <label>Description</label><input type="text" id="description" placeholder="chocolate"value="chocolate">
+    <label>Price</label><input type="number" id="price" placeholder="10"value="20">
+    <label>Quantity</label><input type="number" id="quantity" placeholder="100"value="500">
+    <button id = "additem">AddItem</button>
+
+    <div>
+        <ul id="items"></ul>
+    </div>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        window.addEventListener("DOMContentLoaded",()=>{
+            axios.get("https://crudcrud.com/api/bf003a30da4e41bfb2498842276d0b3a/products")
+             .then((res)=>{
+                for(let i = 0;i<res.data.length;i++){
+                    showDisplay(res.data[i])
+                }
+             })
+             .catch((err)=>{
+                console.log("unable to fetch data from server.")
+             })
+        })
+        
+        //get the value
+
+        
+        let addItem = document.getElementById("additem");
+
+
+        //showDisplay
+
+        function showDisplay(data){
+            // let ditem = data.item
+            // let ddes = data.description
+            // let dprice = data.price
+            // let dquan = data.quantity
+            let datavalue = data.item + " " + data.description + " " + data.price.toString() + " " + data.quantity;
+            let listSen = document.getElementById("items");
+            let listp = document.createElement("li");
+
+            //buy one two three buttons
+            let buyOne = document.createElement("button")
+            let buyTwo = document.createElement("button")
+            let buyThree = document.createElement("button")
+
+            listp.appendChild(document.createTextNode(datavalue))
+
+            buyOne.appendChild(document.createTextNode("Buy 1"))
+            buyTwo.appendChild(document.createTextNode("Buy 2"))
+            buyThree.appendChild(document.createTextNode("Buy 3"))
+
+            listp.appendChild(buyOne)
+            listp.appendChild(buyTwo)
+            listp.appendChild(buyThree)
+
+            listSen.appendChild(listp)
+
+            //event listeners
+
+            buyOne.addEventListener("click",()=>{
+                if (data.quantity > 0) {
+                    data.quantity -= 1;
+                    listp.firstChild.textContent = `${data.item} ${data.description} ${data.price.toString()} ${data.quantity}`;
+
+                    axios.put(`https://crudcrud.com/api/bf003a30da4e41bfb2498842276d0b3a/products/${data._id}`, { quantity: data.quantity })
+                    
+                    .then((response) => {
+                        console.log("Quantity updated on the server successfully...");
+            })
+                    .catch((err) => {
+                        console.log("Something went wrong while updating quantity on the server.");
+            });
+        }
+
+            })
+
+            buyTwo.addEventListener("click",()=>{
+                if (data.quantity > 0) {
+                    data.quantity -= 2;
+                    listp.firstChild.textContent = `${data.item} ${data.description} ${data.price.toString()} ${data.quantity}`;
+                    axios.put(`https://crudcrud.com/api/bf003a30da4e41bfb2498842276d0b3a/products/${data._id}`, { quantity: data.quantity })
+                    
+                    .then((response) => {
+                        console.log("Quantity updated on the server successfully...");
+            })
+                    .catch((err) => {
+                        console.log("Something went wrong while updating quantity on the server.");
+            });
+        }
+
+            })
+
+            buyThree.addEventListener("click",()=>{
+                if (data.quantity > 0) {
+                    data.quantity -= 3;
+                    listp.firstChild.textContent = `${data.item} ${data.description} ${data.price.toString()} ${data.quantity}`;
+                    axios.put(`https://crudcrud.com/api/bf003a30da4e41bfb2498842276d0b3a/products/${data._id}`, { quantity: data.quantity })
+                    
+                    .then((response) => {
+                        console.log("Quantity updated on the server successfully...");
+            })
+                    .catch((err) => {
+                        console.log("Something went wrong while updating quantity on the server.");
+            });
+        }
+            })
+
+
+
+        }
+        
+
+        //first add features to additem button then proceed next
+        
+        addItem.addEventListener("click",()=>{
+            let item = document.getElementById("itemname").value;
+            let des = document.getElementById("description").value;
+            let price = document.getElementById("price").value;
+            let quan = document.getElementById("quantity").value;
+            
+
+            let item_information = {
+                "item":item,
+                "description":des,
+                "price":price,
+                "quantity":quan
+            }
+
+            axios.post("https://crudcrud.com/api/bf003a30da4e41bfb2498842276d0b3a/products",item_information)
+             .then((response)=>{
+                console.log("Item Information posted on server successfully...")
+                showDisplay(response.data)
+             })
+             .catch((err)=>{
+                console.log("something went wrong at posting item_information.")
+             })
+
+
+
+
+        })
+
+    </script>
+    
+    
+    
+</body>
+</html>
