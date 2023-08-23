@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label>SellingPrice</label><input type="number" id="price" value = 1000>
+    <label>ProductName</label><input type="text" id="item" value = "chocolate">
+
+    <label>Choose Category</label>
+
+    <select id="category">
+        <option value = "electronic">Electronics</option>
+        <option value="food">Food</option>
+        <option value="skincare">SkinCares</option>
+    </select>
+
+    <button id="addproduct">AddProduct</button>
+    <br><br>
+    <h1>Products</h1>
+    <br>
+
+    <h2>Electronics Items</h3>
+    <ul id="items1"></ul>
+
+    <br>
+
+    <h2>Food Items</h3>
+    <ul id="items2"></ul>
+
+    <br>
+
+    <h2>SkinCares Items</h3>
+    <ul id="items3"></ul>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+        window.addEventListener("DOMContentLoaded",()=>{
+            axios.get("https://crudcrud.com/api/bf0de29a75d74e6394c744e9ac2bf984/items")
+            .then((res)=>{
+                for(let i = 0;i<res.data.length;i++){
+                    showDisplay(res.data[i])
+                }
+
+            })
+            .catch((err)=>{
+                console.log("somethingwentwrongat domcontentloading...")
+            })
+            
+        })
+        let add = document.getElementById("addproduct")
+        function showDisplay(dataItems){
+                // dKey = dataItems._id;
+                // datavalue = dataItems.sellingprice + " " + dataItems.category + " " + dataItems.product;
+                // let delbtn = document.createElement("button")
+                // delbtn.appendChild(document.createTextNode("Delete"))
+
+                if(dataItems.category=="electronic"){
+                    let dkey1 = dataItems._id;
+                    let dvalue1 = dataItems.sellingprice + " " + dataItems.category + " " + dataItems.product;
+                    let d1 = document.createElement("button")
+                    d1.appendChild(document.createTextNode("Delete"))
+
+                    let ulist1 = document.getElementById("items1")
+                    let llist = document.createElement("li")
+                    llist.appendChild(document.createTextNode(dvalue1))
+                    llist.appendChild(d1)
+                    ulist1.appendChild(llist)
+
+                    d1.addEventListener("click",()=>act1(dkey1))
+
+                    function act1(dataid){
+                        axios.delete(`https://crudcrud.com/api/bf0de29a75d74e6394c744e9ac2bf984/items/${dataid}`)
+                        .then((res)=>{
+                            ulist1.removeChild(llist)
+                        })
+                        .catch((err)=>{
+                            console.log("something went wrong at Delete")
+                        })
+                    }
+                }
+                else if(dataItems.category == "food"){
+                    let dkey2 = dataItems._id;
+                    let dvalue2 = dataItems.sellingprice + " " + dataItems.category + " " + dataItems.product;
+                    let d2 = document.createElement("button")
+                    d2.appendChild(document.createTextNode("Delete"))
+
+                    let ulist2 = document.getElementById("items2")
+                    let list1 = document.createElement("li")
+                    list1.appendChild(document.createTextNode(dvalue2))
+                    list1.appendChild(d2)
+                    ulist2.appendChild(list1)
+
+                    d2.addEventListener("click",()=>act2(dkey2))
+
+                    function act2(dataid){
+                        axios.delete(`https://crudcrud.com/api/bf0de29a75d74e6394c744e9ac2bf984/items/${dataid}`)
+                        .then((res)=>{
+                            ulist2.removeChild(list1)
+                        })
+                        .catch((err)=>{
+                            console.log("something went wrong at Delete")
+                        })
+                        
+                    }
+                }
+                else if(dataItems.category == "skincare"){
+                    let dkey3 = dataItems._id;
+                    let dvalue3 = dataItems.sellingprice + " " + dataItems.category + " " + dataItems.product;
+                    let d3 = document.createElement("button")
+                    d3.appendChild(document.createTextNode("Delete"))
+
+                    let ulist3 = document.getElementById("items3")
+                    let list3 = document.createElement("li")
+                    list3.appendChild(document.createTextNode(dvalue3))
+                    list3.appendChild(d3)
+                    ulist3.appendChild(list3)
+
+                    d3.addEventListener("click",()=>act3(dkey3))
+
+                    function act3(dataid){
+                        axios.delete(`https://crudcrud.com/api/bf0de29a75d74e6394c744e9ac2bf984/items/${dataid}`)
+                        .then((res)=>{
+                            ulist3.removeChild(list3)
+                        })
+                        .catch((err)=>{
+                            console.log("something went wrong at Delete")
+                        })
+                    }
+                }
+
+                
+
+                
+            }
+
+        add.addEventListener("click",()=>{
+
+            
+
+
+
+            let itemData = {
+                "sellingprice":document.getElementById("price").value,
+                "product":document.getElementById("item").value,
+                "category":document.getElementById("category").value
+            }
+
+            
+
+            axios.post("https://crudcrud.com/api/bf0de29a75d74e6394c744e9ac2bf984/items",itemData)
+            .then((response)=>{
+                console.log("Data Posted Success...")
+                showDisplay(response.data)
+            })
+            .catch((err)=>{
+                console.log("Data not Posted.")
+            })
+
+            
+            
+        })
+    </script>
+</body>
+</html>
